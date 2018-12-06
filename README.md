@@ -1,5 +1,7 @@
 ## Project Description
 * This is a backend website built with flask to display sports item, public users can just view the available items, while registered users can also make changes on their own items.
+* database_setup.py is the configuration of the database, it uses sqlite.
+* seeder.py populated the database with dummy items.
 
 ## Project Purpose
 * The purpose of building this project is to practice my skills in making RESTful web apps that provide third party authentication and authorization functionalities. That's why the items are dummy, and the front end is not styled.
