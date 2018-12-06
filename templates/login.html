@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+</script>
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+</head>
+<body>  
+<!-- GOOGLE PLUS SIGN IN BUTTON-->
+
+  <div id="signinButton">
+      <span class="g-signin"
+          data-scope="openid email"
+          data-clientid="862546593258-r8jslmb9po5i32kapbjqoguapst3kga5.apps.googleusercontent.com"
+          data-redirecturi="postmessage"
+          data-accesstype="offline"
+          data-cookiepolicy="single_host_origin"
+          data-callback="signInCallback"
+          data-approvalprompt="force">
+          </span>
+  </div>
+
+  <div id='result'></div>
+
+  <script>
+    function signInCallback(authResult){
+      if(authResult['code']){
+        //Hide the sign-in button after authorization
+        $('#signinButton').attr('style', 'display: none');
+
+        //Send the one-time-use code to the server
+        $.ajax({
+          type: 'POST',
+          url: '/gconnect?state={{STATE}}',
+          processData: false,
+          data: authResult['code'], //The data we wanna send is the one-time-use code
+          contentType: 'application/octet-stream; charset=utf-8',
+          success: function(result) {
+            if (result){
+              $('#result').html('Login Sucessul!</br>' + result + '</br>Redirecting...')
+              setTimeout(function(){
+                window.location.href = "/";
+              }, 3000);
+            }
+            else if(authResult['error']){
+              console.log('There was an error: ' + authResult['error'])
+            }
+            else{
+        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+            }
+          }
+        });
+      }
+    }
+  </script>
+
+<!--END GOOGLE PLUS SIGN IN BUTTON -->
+</body>
+</html>

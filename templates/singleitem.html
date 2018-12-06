@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{item.name}}</title>
+</head>
+<body>
+<h1>Catalog App</h1>
+<h2>{{item.category.name}}</h3>
+<h3>{{item.name}}</h3>
+<p>{{item.description}}</p>
+<a href='{{url_for("edit_item", item = item.name)}}'>Edit</a>
+<a href='{{url_for("delete_item", item = item.name)}}'>Delete</a>
+</body>
+</html>

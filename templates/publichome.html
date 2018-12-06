@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sports Catalog</title>
+</head>
+<body>
+  <div id=login><a href='{{url_for("showlogin")}}'>Login</a></div>
+  <br>
+  <h1>Catalog App</h1>
+  <h2>Categories</h2>
+  {% for category in categories %}
+  <a href="{{url_for('items', name = category.name)}}">{{category.name}}</a>
+  <br>
+  {% endfor %}
+  <br>
+  <h2>Latest Items</h2>
+  {% for item in items %}
+  <a href="{{url_for('single_item', ctg = item.category.name, item_name = item.name)}}">{{item.name}}
+  </a>    ({{item.category.name}})
+  <br>
+{% endfor %}
+</body>
+</html>
