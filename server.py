@@ -30,7 +30,7 @@ def create_user(login_session):
         'email'])
     session.add(new_user)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email'].one())
+    user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
 
@@ -113,11 +113,9 @@ def edit_item(item):
     the_item = session.query(Item).filter_by(name=item).one()
     if the_item.user_id != login_session.get('user_id', ''):
         return '''\
-            <script>function f(){alert(
-            "You are not authorized to edit it,
-             you're not even supposed to be here!");}
+            <script>
+            alert("You should'nt be here!");
             </script>
-            <body onload="f();">
         '''
 
     categories = session.query(Category).all()
@@ -125,7 +123,7 @@ def edit_item(item):
         return render_template('edititem.html',
                                categories=categories, item=item)
     else:
-        the_category = session.query(Category).filter_by(
+        the_ctg = session.query(Category).filter_by(
                         name=request.form['category']).one()
         the_item.name = request.form['name']
         the_item.description = request.form['description']
@@ -133,7 +131,7 @@ def edit_item(item):
         session.add(the_item)
         session.commit()
         return redirect(url_for('single_item',
-                                ctg=the_category.name, item_name=item))
+                                ctg=the_ctg.name, item_name=the_item.name))
 
 
 @app.route('/catalog/<string:item>/delete', methods=['GET', 'POST'])
@@ -144,11 +142,9 @@ def delete_item(item):
     the_item = session.query(Item).filter_by(name=item).one()
     if the_item.user_id != login_session.get('user_id', ''):
         return '''\
-            <script>function f(){alert(
-            "You are not authorized to delete it,
-            you're not even supposed to be here!");}
+            <script>
+            alert("You should'nt be here!");
             </script>
-            <body onload="f();">
         '''
 
     if request.method == 'GET':
@@ -186,7 +182,7 @@ def showlogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-    # Validate state token
+    """Validate state token"""
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
         response.headers['Content-Type'] = 'application/json'

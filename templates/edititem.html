@@ -7,10 +7,10 @@
 	<h1>Edit Item</h1>
 <form method='POST'>
 	Name:<br>
-	<input type='text' name='name'><br>
+	<input type='text' name='name' required><br>
 	Description:<br>
-	<textarea rows=5 cols=10 name='description'></textarea><br>
-	<select name='category'>
+	<textarea rows=5 cols=10 name='description' required></textarea><br>
+	<select name='category' required>
 		{% for c in categories %}
 		<option value='{{c.name}}'>{{c.name}}</option>
 		{% endfor %}
