@@ -127,7 +127,7 @@ def edit_item(item):
                         name=request.form['category']).one()
         the_item.name = request.form['name']
         the_item.description = request.form['description']
-        the_item.category = the_category
+        the_item.category = the_ctg
         session.add(the_item)
         session.commit()
         return redirect(url_for('single_item',
